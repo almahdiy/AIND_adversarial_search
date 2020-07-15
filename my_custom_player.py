@@ -1,5 +1,6 @@
 from isolation import DebugState
 from sample_players import DataPlayer
+import random
 
 
 class CustomPlayer(DataPlayer):
@@ -42,7 +43,7 @@ class CustomPlayer(DataPlayer):
         # EXAMPLE: choose a random move without any search--this function MUST
         #          call self.queue.put(ACTION) at least once before time expires
         #          (the timer is automatically managed for you)
-        import random
+        
 
         """
         Notes:
@@ -68,7 +69,7 @@ class CustomPlayer(DataPlayer):
         #print("turn: ", self.player_id)
         #print("libreties: ", state.liberties(state.locs[self.player_id]))
 
-        #debug_board = DebugState.from_state(state)
+        debug_board = DebugState.from_state(state)
         #print(debug_board)
         
         depth_limit = 10
@@ -135,12 +136,14 @@ class CustomPlayer(DataPlayer):
           v = min_value(state.result(a), depth - 1, alpha, beta)
           #print("v: ", v)
           alpha = max(alpha, v)
-          if(v >= best_score):
+          if(v > best_score):
             best_score = v
             best_move = a
         #print("best move: ", best_move)
         if(best_move is not None):
           return best_move
+        else:
+            return random.choice(state.actions())
 
         #return max(state.actions(), key=lambda x: min_value(state.result(x), depth - 1))
 
